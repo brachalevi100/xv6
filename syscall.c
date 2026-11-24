@@ -103,10 +103,12 @@ extern int sys_unlink(void);
 extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
+extern int sys_cps(void);
 
 static int (*syscalls[])(void) = {
 // Adding "new" "SYSCALLfork(fork)" without changing syscall.h
 [1]    sys_fork, //originally [SYS_fork]    sys_fork, 1 instead of SYS_fork
+[180]     sys_cps,
 [SYS_exit]    sys_exit,
 [SYS_wait]    sys_wait,
 [SYS_pipe]    sys_pipe,
