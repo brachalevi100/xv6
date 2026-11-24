@@ -221,6 +221,30 @@ fork(void)
   return pid;
 }
 
+int cps(void)
+{
+  struct  proc *p;
+
+  sti();
+
+  acquire(&ptable.lock);
+
+  cprintf("name \t pid \t state \t \t ppid \t size \n");
+
+  for(p = ptable.proc; p < &ptable.proc[NPROC];p++){
+    if (p->state == SLEEPING)
+      cprintf("%s \t %d \t SLEEPING \t %d \t %d \n ",p->name, p->pid,p->parent , p->sz);
+    else if (p->state == RUNNING)
+      cprintf("%s \t %d \t RUNNING  %d \t %d \n ",p->name, p->pid,p->parent , p->sz);
+    else if (p->state == RUNNABLE)
+      cprintf("%s \t %d \t RUNNING  %d \t %d \n ",p->name, p->pid,p->parent , p->sz);
+  }
+  
+  release(&ptable.lock);
+
+  return 180;
+}
+
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
 // until its parent calls wait() to find out it exited.
